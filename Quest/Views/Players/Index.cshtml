@@ -1,0 +1,45 @@
+﻿@model Quest.Models.Player
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Player Home</h2>
+
+<p>
+    <!--<a asp-action="Create">Create New</a> -->
+<p> This is the player home page where they can preform functions. Like attack, quest or something</p>
+<p>TO DO: Make the view look better?</p>
+
+<h2>Your player stats</h2>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Name)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Health)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Health)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Attack)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Attack)
+        </dd>
+    </dl>
+</div>

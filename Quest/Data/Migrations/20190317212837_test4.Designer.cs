@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quest.Data;
 
 namespace Quest.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190317212837_test4")]
+    partial class test4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,13 +194,25 @@ namespace Quest.Data.Migrations
 
                     b.Property<long>("Gold");
 
-                    b.Property<string>("PlayerId");
+                    b.Property<int?>("ItemSlot1ID");
+
+                    b.Property<int?>("ItemSlot2ID");
+
+                    b.Property<int?>("ItemSlot3ID");
+
+                    b.Property<int?>("ItemSlot4ID");
+
+                    b.Property<string>("Owner");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("PlayerId")
-                        .IsUnique()
-                        .HasFilter("[PlayerId] IS NOT NULL");
+                    b.HasIndex("ItemSlot1ID");
+
+                    b.HasIndex("ItemSlot2ID");
+
+                    b.HasIndex("ItemSlot3ID");
+
+                    b.HasIndex("ItemSlot4ID");
 
                     b.ToTable("Inventory");
                 });
@@ -211,19 +225,17 @@ namespace Quest.Data.Migrations
 
                     b.Property<long>("Damage");
 
-                    b.Property<int?>("InventoryIDID");
-
                     b.Property<string>("ItemImage");
 
                     b.Property<string>("Name");
+
+                    b.Property<string>("Owner");
 
                     b.Property<string>("Type");
 
                     b.Property<int>("Value");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("InventoryIDID");
 
                     b.ToTable("Item");
                 });
@@ -295,16 +307,21 @@ namespace Quest.Data.Migrations
 
             modelBuilder.Entity("Quest.Models.Inventory", b =>
                 {
-                    b.HasOne("Quest.Models.Player", "PlayerID")
-                        .WithOne("InventoryID")
-                        .HasForeignKey("Quest.Models.Inventory", "PlayerId");
-                });
-
-            modelBuilder.Entity("Quest.Models.Item", b =>
-                {
-                    b.HasOne("Quest.Models.Inventory", "InventoryID")
+                    b.HasOne("Quest.Models.Item", "ItemSlot1")
                         .WithMany()
-                        .HasForeignKey("InventoryIDID");
+                        .HasForeignKey("ItemSlot1ID");
+
+                    b.HasOne("Quest.Models.Item", "ItemSlot2")
+                        .WithMany()
+                        .HasForeignKey("ItemSlot2ID");
+
+                    b.HasOne("Quest.Models.Item", "ItemSlot3")
+                        .WithMany()
+                        .HasForeignKey("ItemSlot3ID");
+
+                    b.HasOne("Quest.Models.Item", "ItemSlot4")
+                        .WithMany()
+                        .HasForeignKey("ItemSlot4ID");
                 });
 #pragma warning restore 612, 618
         }

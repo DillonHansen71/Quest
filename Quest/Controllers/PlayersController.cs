@@ -32,6 +32,7 @@ namespace Quest.Controllers
             //only returns the player object that matched the email if the person logged in
             //Player players = await _context.Player.ToListAsync();
             var players = await _context.Player.ToListAsync();
+            
             //Find the player object with the matching email
             foreach (Player player in players)
             {

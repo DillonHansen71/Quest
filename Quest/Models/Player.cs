@@ -9,6 +9,7 @@ namespace Quest.Models
     {
         public string ID { get; set; }
         public string ProfileImage { get; set; }
+        public virtual Inventory InventoryID { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
         public Int64 Health { get; set; }

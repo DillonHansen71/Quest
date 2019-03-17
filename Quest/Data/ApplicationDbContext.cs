@@ -14,5 +14,7 @@ namespace Quest.Data
         {
         }
         public DbSet<Quest.Models.Player> Player { get; set; }
+        public DbSet<Quest.Models.Item> Item { get; set; }
+        public DbSet<Quest.Models.Inventory> Inventory { get; set; }
     }
 }

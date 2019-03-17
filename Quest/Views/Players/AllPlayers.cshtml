@@ -5,7 +5,7 @@
 }
 
 <h2>All Players</h2>
-
+<legend>Legend</legend>
 <table class="table">
     <thead>
         <tr>
@@ -29,6 +29,7 @@
         {
             <tr>
                 <td>
+                    <img src="@Url.Content(item.ProfileImage)" alt="Image" width="100px" />
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>

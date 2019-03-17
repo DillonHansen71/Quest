@@ -1,5 +1,6 @@
 ﻿@model Quest.Models.Player
 
+
 @{
     ViewData["Title"] = "Edit";
 }
@@ -19,6 +20,11 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Health" class="control-label"></label>
                 <input asp-for="Health" class="form-control" />
                 <span asp-validation-for="Health" class="text-danger"></span>
@@ -27,6 +33,11 @@
                 <label asp-for="Attack" class="control-label"></label>
                 <input asp-for="Attack" class="form-control" />
                 <span asp-validation-for="Attack" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProfileImage" class="control-label"></label>
+                <input asp-for="ProfileImage" class="form-control" />
+                <span asp-validation-for="ProfileImage" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

@@ -41,7 +41,10 @@ namespace Quest.Controllers
                     selectedPlayer = player;
                 }
             }
-
+            if(selectedPlayer == null)
+            {
+                return RedirectToAction(nameof(Create));
+            }
             return View(selectedPlayer);
         }
 
@@ -95,7 +98,7 @@ namespace Quest.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,Name,Health,Attack")] Player player)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Name,Email,Health,Attack,ProfileImage")] Player player)
         {
             if (id != player.ID)
             {

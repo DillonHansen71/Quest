@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quest.Data;
 
-namespace Quest.Data.Migrations
+namespace Quest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190308054112_test2")]
-    partial class test2
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,10 +184,54 @@ namespace Quest.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Quest.Models.Inventory", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("Gold");
+
+                    b.Property<int>("PlayerID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PlayerID")
+                        .IsUnique();
+
+                    b.ToTable("Inventory");
+                });
+
+            modelBuilder.Entity("Quest.Models.Item", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("Damage");
+
+                    b.Property<int>("InventoryID");
+
+                    b.Property<string>("ItemImage");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Type");
+
+                    b.Property<int>("Value");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("InventoryID");
+
+                    b.ToTable("Item");
+                });
+
             modelBuilder.Entity("Quest.Models.Player", b =>
                 {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Attack");
 
@@ -198,6 +240,8 @@ namespace Quest.Data.Migrations
                     b.Property<long>("Health");
 
                     b.Property<string>("Name");
+
+                    b.Property<string>("ProfileImage");
 
                     b.HasKey("ID");
 
@@ -246,6 +290,22 @@ namespace Quest.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Quest.Models.Inventory", b =>
+                {
+                    b.HasOne("Quest.Models.Player")
+                        .WithOne("Inventory")
+                        .HasForeignKey("Quest.Models.Inventory", "PlayerID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Quest.Models.Item", b =>
+                {
+                    b.HasOne("Quest.Models.Inventory")
+                        .WithMany("Items")
+                        .HasForeignKey("InventoryID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

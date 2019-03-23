@@ -46,6 +46,8 @@ namespace Quest.Controllers
         // GET: Items/Create
         public IActionResult Create()
         {
+            ViewBag.AllInventoryIDs = _context.Inventory.ToListAsync().Result.Select(i=> i.ID);
+
             return View();
         }
 

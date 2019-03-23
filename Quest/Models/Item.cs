@@ -8,7 +8,7 @@ namespace Quest.Models
     public class Item
     {
         public int ID { get; set; }
-        public Inventory InventoryID { get; set; }
+        public int InventoryID { get; set; }
         public string Name { get; set; }
         public string ItemImage { get; set; }
         public string Type { get; set; }

@@ -1,52 +1,53 @@
 ﻿@model IEnumerable<Quest.Models.Player>
 
-@{
-    ViewData["Title"] = "All Players";
-}
 
-<h2>All Players</h2>
-<legend>Legend</legend>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Health)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Attack)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    @{
+        ViewData["Title"] = "All Players";
+    }
+
+    <h2>All Players</h2>
+    <legend>Legend</legend>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    <img src="@Url.Content(item.ProfileImage)" alt="Image" width="100px" />
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Health)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Attack)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a> |
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Health)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Attack)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@Url.Content(item.ProfileImage)" alt="Image" width="100px" />
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Health)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Attack)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a> |
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

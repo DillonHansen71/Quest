@@ -25,6 +25,8 @@ namespace Quest.Controllers
             return View(await _context.Inventory.ToListAsync());
         }
 
+        // GET all items with Item.inventoryID == current inventory.ID
+
         // GET: Inventories/Details/5
         public async Task<IActionResult> Details(int? id)
         {

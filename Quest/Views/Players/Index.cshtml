@@ -15,7 +15,7 @@
 
 <div>
     <h4>@Html.DisplayFor(model => model.Name)</h4>
-    <img src="@Url.Content(Model.ProfileImage)" alt="Image" width="100px"  />
+    <img src="@Url.Content(Model.ProfileImage)" alt="Image" width="100px" />
 
 
     <hr />
@@ -46,3 +46,13 @@
         </dd>
     </dl>
 </div>
+
+<p>Items below???</p>
+<p>@Html.DisplayFor(model => model.Inventory.Items)</p>
+
+@*
+    @foreach (var item in Model.Inventory.Items)
+    {
+        <a>@item.Name</a>
+    }
+*@

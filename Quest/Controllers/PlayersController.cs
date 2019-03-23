@@ -21,9 +21,9 @@ namespace Quest.Controllers
             _context = context;
         }
 
-        // GET: Players
+        // GET: Returns a player that matches the currently logged on users Email
         [Authorize]
-        public async Task<IActionResult> Index(string id)
+        public async Task<IActionResult> Index(int? id)
         {
             string email = User.Identity.Name;
             Player selectedPlayer = null;
@@ -48,6 +48,13 @@ namespace Quest.Controllers
             }
             return View(selectedPlayer);
         }
+        //GET: All Inventories
+        public async Task<IActionResult> AllInventories()
+        {
+            var inventories = await _context.Inventory.ToListAsync();
+            return View("AllPlayers", inventories);
+        }
+
 
         // GET: All Players
         public async Task<IActionResult> AllPlayers()
@@ -56,6 +63,7 @@ namespace Quest.Controllers
         }
 
         // GET: Players/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -68,18 +76,79 @@ namespace Quest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name,Health,Attack")] Player player)
         {
+            // Make the player
             if (ModelState.IsValid)
             {
                 player.Email = User.Identity.Name;
                 _context.Add(player);
                 await _context.SaveChangesAsync();
+
+                //Find the player that was just created with the matching email of the logged on user
+                string email = User.Identity.Name;
+                Player selectedPlayer = null;
+                var players = await _context.Player.ToListAsync();
+                foreach (Player p in players)
+                {
+                    if (p.Email == email)
+                    {
+                        selectedPlayer = p;
+                    }
+                }
+
+                //Create the Inventory for the player
+                Inventory inventory = new Inventory();
+                inventory.PlayerID = selectedPlayer.ID;
+                selectedPlayer.Inventory = inventory;
+                _context.Add(inventory);
+                _context.Update(selectedPlayer);
+                await _context.SaveChangesAsync();
+
+                //Get the updated player object from the database, this will contain the Inventory.ID
+                players = await _context.Player.ToListAsync();
+                foreach (Player p in players)
+                {
+                    if (p.Email == email)
+                    {
+                        selectedPlayer = p;
+                    }
+                }
+
+                //Create one item to add to the inventory
+                Item item = new Item();
+                item.Name = "Rusty Sword";
+                item.Type = "Weapon";
+                item.Damage = 1;
+                item.Value = 5;
+                item.ItemImage = "path";
+
+                //Add the item to the database
+                item.InventoryID = selectedPlayer.Inventory.ID;
+                _context.Add(item);
+                await _context.SaveChangesAsync();
+                
+                //Find the newly created inventory that was attached to the newly created player
+                var inventories = await _context.Inventory.ToListAsync();
+                Inventory selectedInventory = null;
+                foreach (Inventory I in inventories)
+                {
+                    if (I.ID == selectedPlayer.Inventory.ID)
+                    {
+                        selectedInventory = I;
+                    }
+                }
+                //Add the item to the inventory
+                selectedInventory.Items.Add(item);
+                //save the changes
+                _context.Update(selectedInventory);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(player);
         }
 
         // GET: Players/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -99,7 +168,7 @@ namespace Quest.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,Name,Email,Health,Attack,ProfileImage")] Player player)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Email,Health,Attack,ProfileImage")] Player player)
         {
             if (id != player.ID)
             {
@@ -130,7 +199,7 @@ namespace Quest.Controllers
         }
 
         // GET: Players/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
@@ -150,7 +219,7 @@ namespace Quest.Controllers
         // POST: Players/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var player = await _context.Player.FindAsync(id);
             _context.Player.Remove(player);
@@ -158,7 +227,7 @@ namespace Quest.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PlayerExists(string id)
+        private bool PlayerExists(int id)
         {
             return _context.Player.Any(e => e.ID == id);
         }

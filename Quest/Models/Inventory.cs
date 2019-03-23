@@ -10,7 +10,8 @@ namespace Quest.Models
     {
         public int ID { get; set; }
         [ForeignKey("PlayerId")]
-        public virtual Player PlayerID { get; set; }
+        public int PlayerID { get; set; }
+        public List<Item> Items { get; set; }
         public Int64 Gold { get; set; }
     }
 }
